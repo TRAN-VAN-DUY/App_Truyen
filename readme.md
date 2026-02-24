@@ -21,7 +21,7 @@ Bình luận-Quản lý bình luận
 ########################
 User:
 Trang đăng nhập/ đăng ký(Vân)
-Trang chủ(Hằng): gồm 1 banner bên dưới gồm icon trang chủ, icon kho truyện, icon thông tin cá nhân, icon tìm kiếm, 1 banner bên trên gồm có tên trang và 1 icon avatar.
+Trang chủ(Vũ): gồm 1 banner bên dưới gồm icon trang chủ, icon kho truyện, icon thông tin cá nhân, icon tìm kiếm, 1 banner bên trên gồm có tên trang và 1 icon avatar.
 Trang kho truyện(Vân): 3 phần truyện đang đọc, truyện yêu thích, truyện tự mình sáng tác.
 Trang tìm kiếm(Duy) : 
 Trang thông tin cá nhân(Hải)
@@ -31,5 +31,5 @@ Trang chi tiết 1 chap truyện(Duy)
 Admin:
 Trang chủ admin(Hằng)
 Trang thống kê (tạm để đó)
-Trang quản lý user(Vũ)
+Trang quản lý user(Hằng)
 Trang quản lý truyện(Hải)
