@@ -23,7 +23,7 @@ User:
 Trang đăng nhập/ đăng ký(Vân)
 Trang chủ(Vũ): gồm 1 banner bên dưới gồm icon trang chủ, icon kho truyện, icon thông tin cá nhân, icon tìm kiếm, 1 banner bên trên gồm có tên trang và 1 icon avatar.
 Trang kho truyện(Vân): 3 phần truyện đang đọc, truyện yêu thích, truyện tự mình sáng tác.
-Trang tìm kiếm(Duy) : 
+Trang tìm kiếm(Duy)
 Trang thông tin cá nhân(Hải)
 Trang chi tiết(Vũ)
 Trang chi tiết 1 chap truyện(Duy)
@@ -33,3 +33,6 @@ Trang chủ admin(Hằng)
 Trang thống kê (tạm để đó)
 Trang quản lý user(Hằng)
 Trang quản lý truyện(Hải)
+
+#################################################
+Link figma : https://www.figma.com/design/BRPwFMM9mFD7hjyHFruU5k/Mobile?node-id=0-1&t=p51diifbrsmfOurn-1
