@@ -2,5 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="login_screen_pink">#E66F88</color>
+    <color name="login_splash_bg">#E56987</color>
+    <color name="login_page_bg">#FFF0D0</color>
+    <color name="login_header_bg">#E79AA2</color>
+    <color name="login_primary">#F74871</color>
+    <color name="login_input_bg">#DED7DA</color>
+    <color name="login_input_icon">#615D61</color>
+    <color name="login_divider">#B6AEB1</color>
+    <color name="login_text_primary">#171515</color>
+    <color name="login_text_secondary">#4B4748</color>
+    <color name="login_text_hint">#827D7F</color>
+    <color name="social_google_bg">#EAD8F0</color>
+    <color name="social_facebook_bg">#C8CCF8</color>
+    <color name="google_icon_red">#EA4335</color>
+    <color name="facebook_icon_blue">#1877F2</color>
+    <color name="login_button_start">#F496A8</color>
+    <color name="login_button_end">#FE0030</color>
 </resources>

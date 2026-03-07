@@ -5,40 +5,34 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_screen_pink"
-    android:paddingHorizontal="24dp"
+    android:background="@color/login_splash_bg"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/logo_container"
-        android:layout_width="0dp"
+        android:id="@+id/splashCenter"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintWidth_max="320dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="86dp"
-            android:layout_height="86dp"
-            android:contentDescription="@string/login_logo_content_description"
-            android:scaleType="fitCenter"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:contentDescription="@string/logo_desc"
             android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="serif"
-            android:includeFontPadding="false"
-            android:text="@string/login_logo_name"
+            android:layout_marginTop="10dp"
+            android:fontFamily="cursive"
+            android:text="@string/moon_tales"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="47sp"
             android:textStyle="italic" />
     </LinearLayout>
 

@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">App_Truyen</string>
-    <string name="login_logo_symbol">♡⨯♧</string>
-    <string name="login_logo_name">MoonTales</string>
-    <string name="login_logo_content_description">MoonTales logo</string>
+    <string name="moon_tales">MoonTales</string>
+    <string name="logo_desc">MoonTales logo</string>
+    <string name="welcome_back">Chào mừng bạn trở lại</string>
+    <string name="login_subtitle">Đăng nhập để tiếp tục</string>
+    <string name="email">Email</string>
+    <string name="email_placeholder">email@example.com</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_placeholder">Nhập mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu ?</string>
+    <string name="login">Đăng nhập</string>
+    <string name="or_text">Hoặc</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="sign_up_prefix">Chưa có tài khoản? </string>
+    <string name="sign_up_action">Đăng kí ngay</string>
 </resources>
