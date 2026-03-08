@@ -15,4 +15,13 @@
     <string name="facebook">Facebook</string>
     <string name="sign_up_prefix">Chưa có tài khoản? </string>
     <string name="sign_up_action">Đăng kí ngay</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="register_subtitle">Đăng ký để bắt đầu</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="full_name_placeholder">Nhập họ và tên</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="confirm_password_placeholder">Nhập lại mật khẩu</string>
+    <string name="register">Đăng ký</string>
+    <string name="back_to_login_prefix">Đã có tài khoản? </string>
+    <string name="back_to_login_action">Đăng nhập</string>
 </resources>
