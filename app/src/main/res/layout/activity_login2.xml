@@ -21,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="32dp"
-            android:paddingTop="94dp"
+            android:paddingHorizontal="45dp"
+            android:paddingTop="90dp"
             android:paddingBottom="28dp">
 
             <LinearLayout
@@ -36,7 +36,7 @@
                     android:layout_width="58dp"
                     android:layout_height="58dp"
                     android:contentDescription="@string/logo_desc"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/logo2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/login_subtitle"
                 android:textColor="@color/login_text_secondary"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,8 +103,8 @@
                     android:paddingStart="10dp"
                     android:singleLine="true"
                     android:textColor="@color/login_text_primary"
-                        android:textColorHint="@color/login_text_hint"
-                        android:textSize="18sp" />
+                    android:textColorHint="@color/login_text_hint"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
@@ -144,8 +144,8 @@
                     android:paddingStart="10dp"
                     android:singleLine="true"
                     android:textColor="@color/login_text_primary"
-                        android:textColorHint="@color/login_text_hint"
-                        android:textSize="18sp" />
+                    android:textColorHint="@color/login_text_hint"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
@@ -158,20 +158,17 @@
                 android:textColor="@color/login_primary"
                 android:textSize="18sp" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/bg_login_primary_button"
                 android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="26sp"
-                android:textStyle="bold"
-                app:backgroundTint="@android:color/transparent"
-                app:cornerRadius="12dp"
-                app:rippleColor="@color/login_primary" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -206,14 +203,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:gravity="center_horizontal">
 
                 <LinearLayout
                     android:id="@+id/buttonGoogle"
-                    android:layout_width="0dp"
+                    android:layout_width="142dp"
                     android:layout_height="46dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="19dp"
                     android:background="@drawable/bg_social_google"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -240,10 +236,9 @@
 
                 <LinearLayout
                     android:id="@+id/buttonFacebook"
-                    android:layout_width="0dp"
+                    android:layout_width="142dp"
                     android:layout_height="46dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginStart="19dp"
                     android:background="@drawable/bg_social_facebook"
                     android:gravity="center"
                     android:orientation="horizontal"
