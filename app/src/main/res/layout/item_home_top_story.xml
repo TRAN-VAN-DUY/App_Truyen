@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="119dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="18dp"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="119dp"
+        android:layout_height="293dp"
+        android:background="@drawable/bg_home_preview_card" />
+
+    <TextView
+        android:id="@+id/textTopStoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:maxLines="2"
+        android:textColor="@color/login_text_primary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        tools:text="Mặt Trăng Đỏ" />
+</LinearLayout>

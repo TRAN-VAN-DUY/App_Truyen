@@ -24,4 +24,16 @@
     <string name="register">Đăng ký</string>
     <string name="back_to_login_prefix">Đã có tài khoản? </string>
     <string name="back_to_login_action">Đăng nhập</string>
+    <string name="home_title">Trang chủ</string>
+    <string name="top_stories">Truyện nổi bật</string>
+    <string name="recommended_stories">Truyện đề cử</string>
+    <string name="new_update_stories">Mới cập nhật</string>
+    <string name="hot_stories">Đang hot</string>
+    <string name="view_all">Xem tất cả</string>
+    <string name="view_all_click_message">Đang mở danh sách đầy đủ</string>
+    <string name="home_search_hint">Tìm kiếm truyện</string>
+    <string name="menu_home">Trang chủ</string>
+    <string name="menu_library">Kho truyện</string>
+    <string name="menu_search">Tìm kiếm</string>
+    <string name="menu_profile">Hồ sơ</string>
 </resources>
