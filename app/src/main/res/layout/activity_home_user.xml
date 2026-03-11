@@ -29,7 +29,7 @@
 
         <LinearLayout
             android:id="@+id/menuMain"
-            android:layout_width="277dp"
+            android:layout_width="match_parent"
             android:layout_height="39dp"
             android:layout_gravity="center"
             android:baselineAligned="false"
@@ -248,7 +248,7 @@
                 android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
                 android:overScrollMode="never"
-                android:paddingStart="16dp"
+                android:paddingStart="0dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
