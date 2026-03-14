@@ -36,13 +36,13 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         RecyclerView recyclerSearchStories = findViewById(R.id.recyclerSearchStories);
-        storyAdapter = new StoryAdapter();
+        storyAdapter = new StoryAdapter(filteredStories);
         recyclerSearchStories.setLayoutManager(new LinearLayoutManager(this));
         recyclerSearchStories.setAdapter(storyAdapter);
 
         sourceStories.addAll(createStories());
         filteredStories.addAll(sourceStories);
-        storyAdapter.submitList(filteredStories);
+        storyAdapter.notifyDataSetChanged();
 
         inputSearch = findViewById(R.id.inputSearchStory);
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -131,32 +131,27 @@ public class SearchActivity extends AppCompatActivity {
 
         for (StoryItem item : sourceStories) {
             boolean matchedKeyword = lower.isEmpty()
-                    || item.getTitle().toLowerCase(Locale.ROOT).contains(lower)
-                    || item.getCategory().toLowerCase(Locale.ROOT).contains(lower)
-                    || item.getAuthor().toLowerCase(Locale.ROOT).contains(lower);
+                    || item.title.toLowerCase(Locale.ROOT).contains(lower)
+                    || item.genre.toLowerCase(Locale.ROOT).contains(lower)
+                    || item.author.toLowerCase(Locale.ROOT).contains(lower);
 
-            boolean matchedTag = tag.isEmpty() || item.getCategory().toLowerCase(Locale.ROOT).contains(tag);
+            boolean matchedTag = tag.isEmpty() || item.genre.toLowerCase(Locale.ROOT).contains(tag);
 
             if (matchedKeyword && matchedTag) {
                 filteredStories.add(item);
             }
         }
 
-        storyAdapter.submitList(filteredStories);
+        storyAdapter.notifyDataSetChanged();
     }
 
     private List<StoryItem> createStories() {
         List<StoryItem> stories = new ArrayList<>();
-        stories.add(new StoryItem("Chị Gái Lại Toang Nữa Rồi", "Fantasy", "450", "Se Chan", "Đang cập nhật", "4.5/5",
-                "121.004", false));
-        stories.add(new StoryItem("Đêm bên làn nước", "Hành động", "Ngoại truyện 12", "Eo Ju", "Đang hoàn", "5/5",
-                "549.297", true));
-        stories.add(new StoryItem("Chỉ vì tốt cho em", "Tình cảm", "44", "aesthetics & Eobul", "Đang cập nhật", "4/5",
-                "367.921", false));
-        stories.add(new StoryItem("Bí mật thành phố mưa", "Bí ẩn", "102", "Khánh Duy", "Đang cập nhật", "4.5/5",
-                "218.313", false));
-        stories.add(new StoryItem("Lời hứa mùa hạ", "Tình cảm", "87", "Nhi Linh", "Đang hoàn", "4.8/5",
-                "498.110", true));
+        stories.add(new StoryItem("Chi Gai Lai Toang Nua Roi", "Se Chan", "450", "Fantasy"));
+        stories.add(new StoryItem("Dem Ben Lan Nuoc", "Eo Ju", "Ngoai truyen 12", "Hanh dong"));
+        stories.add(new StoryItem("Chi Vi Tot Cho Em", "aesthetics & Eobul", "44", "Tinh cam"));
+        stories.add(new StoryItem("Bi Mat Thanh Pho Mua", "Khanh Duy", "102", "Bi an"));
+        stories.add(new StoryItem("Loi Hua Mua Ha", "Nhi Linh", "87", "Tinh cam"));
         return stories;
     }
 }
