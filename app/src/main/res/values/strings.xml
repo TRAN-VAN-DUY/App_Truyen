@@ -47,4 +47,5 @@
     <string name="tag_action">Hành động</string>
     <string name="tag_romance">Tình cảm</string>
     <string name="tag_mystery">Bí ẩn</string>
+    <string name="search_chapter_prefix">Chap %1$s</string>
 </resources>

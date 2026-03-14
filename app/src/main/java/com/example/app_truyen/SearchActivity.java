@@ -20,7 +20,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private final List<StoryItem> sourceStories = new ArrayList<>();
     private final List<StoryItem> filteredStories = new ArrayList<>();
-    private StoryAdapter storyAdapter;
+    private SearchStoryAdapter storyAdapter;
     private EditText inputSearch;
     private String selectedTag = "";
 
@@ -36,7 +36,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         RecyclerView recyclerSearchStories = findViewById(R.id.recyclerSearchStories);
-        storyAdapter = new StoryAdapter(filteredStories);
+        storyAdapter = new SearchStoryAdapter(filteredStories);
         recyclerSearchStories.setLayoutManager(new LinearLayoutManager(this));
         recyclerSearchStories.setAdapter(storyAdapter);
 
