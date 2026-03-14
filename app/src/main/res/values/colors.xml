@@ -16,7 +16,7 @@
     <color name="social_facebook_bg">#BFBCF4</color>
     <color name="register_action_text">#F71818</color>
     <color name="home_header_bg">#FBE8EC</color>
-    <color name="home_card_stroke">#33000000</color>
+    <color name="home_card_stroke_legacy">#33000000</color>
     <color name="home_thumb_placeholder">#D9D9D9</color>
     <color name="home_meta_text">#80000000</color>
     <color name="home_accent">#FF2D55</color>
@@ -29,4 +29,24 @@
     <color name="facebook_icon_blue">#1877F2</color>
     <color name="login_button_start">#F496A8</color>
     <color name="login_button_end">#FE0030</color>
+    <color name="home_bg">#FFF7F8</color>
+    <color name="home_text_primary">#1D1D1D</color>
+    <color name="home_text_secondary">#6A6A6A</color>
+    <color name="home_text_hint">#9E9E9E</color>
+    <color name="home_card_bg">#FFFFFFFF</color>
+    <color name="home_card_stroke">#FFE8E8</color>
+    <color name="home_footer_bg">#FFFFFFFF</color>
+    <color name="footer_active">#FF2D55</color>
+    <color name="footer_inactive">#8D8D8D</color>
+    <color name="search_input_stroke">#FFD7DF</color>
+    <color name="story_cover_start">#FFE9EE</color>
+    <color name="story_cover_end">#FFD1DB</color>
+    <color name="rating_chip_bg">#FFFFEFF2</color>
+    <color name="tag_bg_active">#FFFF2D55</color>
+    <color name="tag_bg_inactive">#FFFFFFFF</color>
+    <color name="tag_border_inactive">#FFE0A8B5</color>
+    <color name="tag_text_active">#FFFFFFFF</color>
+    <color name="tag_text_inactive">#FF5F5F5F</color>
+    <color name="search_screen_bg">#99FF2D55</color>
+    <color name="search_heart_inactive">#FF2A2A2A</color>
 </resources>

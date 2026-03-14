@@ -33,7 +33,7 @@ public class TopStoryAdapter extends RecyclerView.Adapter<TopStoryAdapter.TopSto
             return;
         }
         StoryItem item = storyItems.get(position % storyItems.size());
-        holder.title.setText(item.title);
+        holder.title.setText(item.getTitle());
     }
 
     @Override

@@ -36,4 +36,15 @@
     <string name="menu_library">Kho truyện</string>
     <string name="menu_search">Tìm kiếm</string>
     <string name="menu_profile">Hồ sơ</string>
+    <string name="home_greeting">Xin chào Duy</string>
+    <string name="home_subtitle">Hôm nay bạn muốn đọc gì?</string>
+    <string name="footer_home">Trang chủ</string>
+    <string name="footer_search">Tìm kiếm</string>
+    <string name="search_title">Tìm truyện</string>
+    <string name="search_hint">Tìm kiếm truyện theo tên hoặc tác giả...</string>
+    <string name="tag_all">Tất cả</string>
+    <string name="tag_fantasy">Fantasy</string>
+    <string name="tag_action">Hành động</string>
+    <string name="tag_romance">Tình cảm</string>
+    <string name="tag_mystery">Bí ẩn</string>
 </resources>
