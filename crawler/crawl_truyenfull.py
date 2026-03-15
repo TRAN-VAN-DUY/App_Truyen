@@ -142,21 +142,47 @@ def get_story_list(page: int = 1) -> list[dict]:
 # ─────────────────────────────────────────────
 # LẤY THÔNG TIN CHI TIẾT TRUYỆN
 # ─────────────────────────────────────────────
-def get_story_detail(url: str) -> dict | None:
+def get_story_detail(url: str, fallback_title: str = "") -> dict | None:
     soup = fetch(url)
     if not soup:
         return None
 
     info   = soup.select_one("div.book")
-    if not info:
-        return None
 
-    title  = info.select_one("h3.title")
-    author = info.select_one("a[itemprop='author']")
+    # Một số mirror thay đổi cấu trúc HTML, nên thử nhiều selector.
+    title = (
+        soup.select_one("h3.title")
+        or soup.select_one("div.info h3")
+        or soup.select_one("meta[property='og:title']")
+    )
+    author = (
+        soup.select_one("a[itemprop='author']")
+        or soup.select_one("div.info a[href*='/tac-gia/']")
+    )
     desc   = soup.select_one("div.desc-text")
-    cover  = info.select_one("div.book-img img")
+    cover  = (
+        (info.select_one("div.book-img img") if info else None)
+        or soup.select_one("meta[property='og:image']")
+    )
     status_tag = soup.select_one("span.text-success, span.text-primary")
     genres = [g.get_text(strip=True) for g in soup.select("div.info-holder a[itemprop='genre']")]
+
+    raw_title = ""
+    if title:
+        if title.name == "meta":
+            raw_title = (title.get("content") or "").strip()
+        else:
+            raw_title = title.get_text(strip=True)
+    if raw_title:
+        raw_title = raw_title.split(" - Truyện Full")[0].split(" - Truyenfull")[0].strip()
+    final_title = raw_title or fallback_title or "Unknown"
+
+    cover_url = ""
+    if cover:
+        if cover.name == "meta":
+            cover_url = cover.get("content") or ""
+        else:
+            cover_url = cover.get("src") or ""
 
     # Tổng số chương (lấy từ phân trang)
     last_page_tag = soup.select("ul.pagination li a")
@@ -174,10 +200,10 @@ def get_story_detail(url: str) -> dict | None:
     status     = status_map.get(raw_status, "ongoing")
 
     return {
-        "title":          title.get_text(strip=True) if title else "Unknown",
+        "title":          final_title,
         "author":         author.get_text(strip=True) if author else "Unknown",
         "description":    desc.get_text(strip=True)   if desc   else "",
-        "cover_url":      cover["src"]                if cover  else "",
+        "cover_url":      cover_url,
         "status":         status,
         "total_chapters": total_chapters,
         "genres":         genres,
@@ -257,41 +283,60 @@ def upsert_genre(cursor, name: str) -> int:
 
 
 def insert_story(cursor, data: dict) -> int:
-    sl = slugify(data["title"], allow_unicode=False)
-    # Đảm bảo slug duy nhất bằng cách thêm suffix nếu cần
-    base_slug = sl
-    suffix    = 1
-    while True:
-        cursor.execute("SELECT id FROM stories WHERE slug = %s", (sl,))
-        if not cursor.fetchone():
-            break
-        sl = f"{base_slug}-{suffix}"
-        suffix += 1
+    def make_unique_slug(base_title: str, exclude_story_id: int | None = None) -> str:
+        slug_base = slugify(base_title, allow_unicode=False) or "story"
+        slug = slug_base
+        suffix = 1
+        while True:
+            cursor.execute("SELECT id FROM stories WHERE slug = %s", (slug,))
+            row = cursor.fetchone()
+            if not row:
+                return slug
+            if exclude_story_id is not None and row[0] == exclude_story_id:
+                return slug
+            slug = f"{slug_base}-{suffix}"
+            suffix += 1
 
+    # Ưu tiên định danh bằng source_url để tránh tạo bản ghi trùng.
+    cursor.execute("SELECT id FROM stories WHERE source_url = %s LIMIT 1", (data["source_url"],))
+    existing = cursor.fetchone()
+
+    if existing:
+        story_id = existing[0]
+        sl = make_unique_slug(data["title"], exclude_story_id=story_id)
+        cursor.execute(
+            """
+            UPDATE stories
+            SET title = %s,
+                slug = %s,
+                author = %s,
+                description = %s,
+                cover_url = %s,
+                status = %s,
+                total_chapters = %s,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+            """,
+            (
+                data["title"], sl, data["author"], data["description"],
+                data["cover_url"], data["status"], data["total_chapters"], story_id
+            )
+        )
+        return story_id
+
+    sl = make_unique_slug(data["title"])
     cursor.execute(
         """
         INSERT INTO stories
             (title, slug, author, description, cover_url, status, total_chapters, source_url)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        ON DUPLICATE KEY UPDATE
-            title          = VALUES(title),
-            author         = VALUES(author),
-            description    = VALUES(description),
-            cover_url      = VALUES(cover_url),
-            status         = VALUES(status),
-            total_chapters = VALUES(total_chapters),
-            updated_at     = CURRENT_TIMESTAMP
         """,
         (
             data["title"], sl, data["author"], data["description"],
             data["cover_url"], data["status"], data["total_chapters"], data["source_url"]
         )
     )
-    if cursor.lastrowid:
-        return cursor.lastrowid
-    cursor.execute("SELECT id FROM stories WHERE source_url = %s", (data["source_url"],))
-    row = cursor.fetchone()
-    return row[0] if row else -1
+    return cursor.lastrowid
 
 
 def insert_chapter(cursor, story_id: int, chap: dict, content: str):
@@ -331,7 +376,10 @@ def crawl(max_pages: int = 5, max_chapters_per_story: int = 30):
 
         for story_meta in story_list:
             print(f"\n[Truyện] {story_meta['title']}")
-            detail = get_story_detail(story_meta["url"])
+            detail = get_story_detail(
+                story_meta["url"],
+                fallback_title=story_meta["title"],
+            )
             if not detail:
                 continue
 
