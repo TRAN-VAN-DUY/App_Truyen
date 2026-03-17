@@ -1,0 +1,16 @@
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/repository/UserRepository.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/controller/GenreController.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/repository/ChapterRepository.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/repository/StoryRepository.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/repository/RoleRepository.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/entity/Genre.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/entity/Chapter.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/repository/GenreRepository.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/entity/User.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/controller/StoryController.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/entity/Story.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/controller/ChapterController.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/controller/RoleController.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/controller/UserController.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/TruyenMbApplication.java
+/Users/mac/App truyện/truyen_mb_hang/src/main/java/com/truyenmb/entity/Role.java
