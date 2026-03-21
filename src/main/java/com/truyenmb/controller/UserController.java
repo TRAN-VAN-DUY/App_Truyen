@@ -22,4 +22,11 @@ public class UserController {
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userRepository.findAll());
     }
+    // API lấy user theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getById(@PathVariable Integer id) {
+        return userRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
