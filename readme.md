@@ -1,39 +1,113 @@
-Chức năng chính : 
-Actor; Người dùng 
-Login/Logout + Authen
-Tìm kiếm truyện(theo thể loại, tên)
-Thông tin cá nhân(chỉnh sửa hồ sơ)
-Truyện yêu thích, truyện đọc gần đây.
-Tạo truyện mới, kho truyện của tôi.
+# Truyen Admin API
 
-Actor: Admin
-Quản lý người dùng.
-Quản lý truyện.
-Thống kê truyện(theo lượt truy cập, lượt yêu thích)
-Thống kê tác giả.
+Backend API cho hệ thống quản lý người dùng 
 
-Tính năng phát triển thêm : 
-Gợi ý truyện
-Bình luận-Quản lý bình luận
+## Công nghệ sử dụng
 
+* Java 21
+* Spring Boot
+* Spring Data JPA
+* Maven
+* Swagger (OpenAPI)
 
+---
 
-###########################################################################################################
-User:                                                                                                      
-Trang đăng nhập/ đăng ký(Vân)                                                                              
-Trang chủ(Vũ): gồm 1 banner bên dưới gồm icon trang chủ, icon kho truyện, icon thông tin cá nhân, icon tìm
-kiếm, 1 banner bên trên gồm có tên trang và 1 icon avatar.                                                
-Trang kho truyện(Vân): 3 phần truyện đang đọc, truyện yêu thích, truyện tự mình sáng tác.                  
-Trang tìm kiếm(Duy)                                                                                        
-Trang thông tin cá nhân(Hải)                                                                               
-Trang chi tiết(Vũ)                                                                                          
-Trang chi tiết 1 chap truyện(Duy)                                                                           
+# Hướng dẫn chạy project
 
-Admin:                                                                                                      
-Trang chủ admin(Hằng)                                                                                     
-Trang thống kê (tạm để đó)                                                                                 
-Trang quản lý user(Hằng)
-Trang quản lý truyện(Hải)                                                                                   
+## 1. Clone project
 
-###########################################################################################################
-Link figma : https://www.figma.com/design/BRPwFMM9mFD7hjyHFruU5k/Mobile?node-id=0-1&t=p51diifbrsmfOurn-1
+```bash
+git clone <repository-url>
+cd truyen-admin-api
+```
+
+---
+
+## 2. Mở project bằng IntelliJ IDEA
+
+* Mở IntelliJ
+* Chọn **Open**
+* Chọn thư mục project
+
+Sau khi mở, IntelliJ sẽ tự tải dependencies Maven.
+
+---
+
+## 3. Chạy ứng dụng
+
+Tìm file:
+
+```
+src/main/java/com/truyenmb/TruyenMbApplication.java
+```
+
+Run file này bằng cách:
+
+* Click chuột phải
+* Chọn **Run 'TruyenMbApplication'**
+
+Hoặc chạy bằng Maven:
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+## 4. Truy cập Swagger UI
+
+Sau khi ứng dụng chạy thành công, mở trình duyệt và truy cập:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+Swagger UI cho phép test các API trực tiếp.
+
+---
+
+## 5. Test API Role
+
+Ví dụ endpoint tạo role:
+
+```
+POST /api/admin/roles
+```
+
+Có thể test trực tiếp tại:
+
+```
+http://localhost:8080/swagger-ui/index.html#/role-controller/create_2
+```
+
+Tại Swagger UI:
+
+1. Chọn **Role Controller**
+2. Chọn API **create**
+3. Nhấn **Try it out**
+4. Nhập dữ liệu JSON
+5. Nhấn **Execute**
+
+---
+
+# Cấu trúc project
+
+```
+com.truyenmb
+ ├── controller
+ │   ├── UserController
+ │   └── RoleController
+ │
+ ├── entity
+ │   ├── User
+ │   └── Role
+ │
+ ├── repository
+ │   ├── UserRepository
+ │   └── RoleRepository
+ │
+ └── TruyenMbApplication
+```
+
+---
+
