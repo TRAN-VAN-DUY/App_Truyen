@@ -17,21 +17,12 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageSearchCover"
             android:layout_width="84dp"
             android:layout_height="110dp"
             android:background="@color/home_thumb_placeholder"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="COVER"
-                android:textColor="@color/home_meta_text"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="0dp"

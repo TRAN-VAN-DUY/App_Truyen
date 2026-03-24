@@ -4,45 +4,51 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private final List<StoryItem> sourceStories = new ArrayList<>();
-    private final List<StoryItem> filteredStories = new ArrayList<>();
+    private final List<StoryResponse> sourceStories = new ArrayList<>();
+    private final List<StoryResponse> filteredStories = new ArrayList<>();
     private SearchStoryAdapter storyAdapter;
     private EditText inputSearch;
     private String selectedTag = "";
-
-    private TextView tagAll;
-    private TextView tagFantasy;
-    private TextView tagAction;
-    private TextView tagRomance;
-    private TextView tagMystery;
+    private StoryApiService apiService;
+    private LinearLayout tagsContainer;
+    private TextView activeTagView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        apiService = ApiClient.getClient().create(StoryApiService.class);
+
         RecyclerView recyclerSearchStories = findViewById(R.id.recyclerSearchStories);
         storyAdapter = new SearchStoryAdapter(filteredStories);
         recyclerSearchStories.setLayoutManager(new LinearLayoutManager(this));
         recyclerSearchStories.setAdapter(storyAdapter);
 
-        sourceStories.addAll(createStories());
-        filteredStories.addAll(sourceStories);
-        storyAdapter.notifyDataSetChanged();
+        // Load danh sách truyện ban đầu
+        loadInitialStories();
 
         inputSearch = findViewById(R.id.inputSearchStory);
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -53,7 +59,15 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                applyFilter(s.toString(), selectedTag);
+                String keyword = s.toString().trim();
+                if (keyword.isEmpty()) {
+                    // Reset về danh sách ban đầu khi clear input
+                    filteredStories.clear();
+                    filteredStories.addAll(sourceStories);
+                    storyAdapter.notifyDataSetChanged();
+                } else {
+                    searchFromApi(keyword);
+                }
             }
 
             @Override
@@ -62,7 +76,8 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        setupTags();
+        tagsContainer = findViewById(R.id.tagsContainer);
+        renderTagsFromStories();
 
         TextView buttonBackSearch = findViewById(R.id.buttonBackSearch);
         buttonBackSearch.setOnClickListener(v -> finish());
@@ -76,66 +91,93 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void setupTags() {
-        tagAll = findViewById(R.id.tagAll);
-        tagFantasy = findViewById(R.id.tagFantasy);
-        tagAction = findViewById(R.id.tagAction);
-        tagRomance = findViewById(R.id.tagRomance);
-        tagMystery = findViewById(R.id.tagMystery);
+    private void renderTagsFromStories() {
+        if (tagsContainer == null) {
+            return;
+        }
 
-        tagAll.setOnClickListener(v -> {
-            selectedTag = "";
-            setTagSelection(tagAll);
-            applyFilter(inputSearch.getText().toString(), selectedTag);
-        });
+        tagsContainer.removeAllViews();
+        List<String> tags = collectTagsFromStories();
 
-        tagFantasy.setOnClickListener(v -> {
-            selectedTag = "fantasy";
-            setTagSelection(tagFantasy);
-            applyFilter(inputSearch.getText().toString(), selectedTag);
-        });
+        selectedTag = "";
+        TextView allChip = createTagChip("Tất cả", "");
+        tagsContainer.addView(allChip);
+        activeTagView = allChip;
+        updateTagSelectionState(activeTagView);
 
-        tagAction.setOnClickListener(v -> {
-            selectedTag = "hành động";
-            setTagSelection(tagAction);
-            applyFilter(inputSearch.getText().toString(), selectedTag);
-        });
-
-        tagRomance.setOnClickListener(v -> {
-            selectedTag = "tình cảm";
-            setTagSelection(tagRomance);
-            applyFilter(inputSearch.getText().toString(), selectedTag);
-        });
-
-        tagMystery.setOnClickListener(v -> {
-            selectedTag = "bí ẩn";
-            setTagSelection(tagMystery);
-            applyFilter(inputSearch.getText().toString(), selectedTag);
-        });
+        for (String tag : tags) {
+            TextView tagChip = createTagChip(tag, tag.toLowerCase(Locale.ROOT));
+            tagsContainer.addView(tagChip);
+        }
     }
 
-    private void setTagSelection(TextView activeTag) {
-        TextView[] allTags = { tagAll, tagFantasy, tagAction, tagRomance, tagMystery };
-        for (TextView tag : allTags) {
-            boolean isActive = tag == activeTag;
-            tag.setBackgroundResource(isActive ? R.drawable.bg_tag_active : R.drawable.bg_tag_inactive);
-            tag.setTextColor(getColor(isActive ? R.color.tag_text_active : R.color.tag_text_inactive));
-            tag.setTypeface(tag.getTypeface(),
+    private List<String> collectTagsFromStories() {
+        Set<String> uniqueTags = new LinkedHashSet<>();
+        for (StoryResponse item : sourceStories) {
+            if (item.category == null || item.category.trim().isEmpty()) {
+                continue;
+            }
+
+            String[] splitTags = item.category.split(",");
+            for (String rawTag : splitTags) {
+                String cleanTag = rawTag.trim();
+                if (!cleanTag.isEmpty()) {
+                    uniqueTags.add(cleanTag);
+                }
+            }
+        }
+        return new ArrayList<>(uniqueTags);
+    }
+
+    private TextView createTagChip(String label, String tagValue) {
+        TextView chip = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                dpToPx(28));
+        params.setMarginEnd(dpToPx(8));
+        chip.setLayoutParams(params);
+        chip.setGravity(android.view.Gravity.CENTER);
+        chip.setPadding(dpToPx(12), 0, dpToPx(12), 0);
+        chip.setText(label);
+        chip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        chip.setOnClickListener(v -> {
+            selectedTag = tagValue;
+            activeTagView = chip;
+            updateTagSelectionState(activeTagView);
+            applyFilter(inputSearch.getText().toString(), selectedTag);
+        });
+        return chip;
+    }
+
+    private void updateTagSelectionState(TextView activeTag) {
+        for (int i = 0; i < tagsContainer.getChildCount(); i++) {
+            TextView chip = (TextView) tagsContainer.getChildAt(i);
+            boolean isActive = chip == activeTag;
+            chip.setBackgroundResource(isActive ? R.drawable.bg_tag_active : R.drawable.bg_tag_inactive);
+            chip.setTextColor(getColor(isActive ? R.color.tag_text_active : R.color.tag_text_inactive));
+            chip.setTypeface(chip.getTypeface(),
                     isActive ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
         }
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
     private void applyFilter(String keyword, String tag) {
         String lower = keyword.trim().toLowerCase(Locale.ROOT);
         filteredStories.clear();
 
-        for (StoryItem item : sourceStories) {
+        for (StoryResponse item : sourceStories) {
+            String title = item.title == null ? "" : item.title;
+            String category = item.category == null ? "" : item.category;
+            String author = item.author == null ? "" : item.author;
             boolean matchedKeyword = lower.isEmpty()
-                    || item.title.toLowerCase(Locale.ROOT).contains(lower)
-                    || item.genre.toLowerCase(Locale.ROOT).contains(lower)
-                    || item.author.toLowerCase(Locale.ROOT).contains(lower);
+                    || title.toLowerCase(Locale.ROOT).contains(lower)
+                    || category.toLowerCase(Locale.ROOT).contains(lower)
+                    || author.toLowerCase(Locale.ROOT).contains(lower);
 
-            boolean matchedTag = tag.isEmpty() || item.genre.toLowerCase(Locale.ROOT).contains(tag);
+            boolean matchedTag = tag.isEmpty() || category.toLowerCase(Locale.ROOT).contains(tag);
 
             if (matchedKeyword && matchedTag) {
                 filteredStories.add(item);
@@ -143,6 +185,60 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         storyAdapter.notifyDataSetChanged();
+    }
+
+    private void loadInitialStories() {
+        Call<ApiResponse<SearchResponse>> call = apiService.getStories(0, 10);
+        call.enqueue(new Callback<ApiResponse<SearchResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<SearchResponse>> call,
+                    Response<ApiResponse<SearchResponse>> response) {
+                ApiResponse<SearchResponse> body = response.body();
+                if (response.isSuccessful() && body != null && body.data != null && body.data.content != null) {
+                    sourceStories.clear();
+                    sourceStories.addAll(body.data.content);
+                    renderTagsFromStories();
+                    applyFilter(inputSearch.getText().toString(), selectedTag);
+                    android.util.Log.d("SearchActivity", "Loaded " + sourceStories.size() + " stories");
+                } else {
+                    android.util.Log.e("SearchActivity", "Response failed: " + response.code());
+                    Toast.makeText(SearchActivity.this, "Không thể tải danh sách (code: " + response.code() + ")",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<SearchResponse>> call, Throwable t) {
+                android.util.Log.e("SearchActivity", "API Error: " + t.getMessage());
+                Toast.makeText(SearchActivity.this, "Không thể tải danh sách: " + t.getMessage(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
+    private void searchFromApi(String keyword) {
+        Call<ApiResponse<SearchResponse>> call = apiService.searchStories(keyword);
+        call.enqueue(new Callback<ApiResponse<SearchResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<SearchResponse>> call,
+                    Response<ApiResponse<SearchResponse>> response) {
+                ApiResponse<SearchResponse> body = response.body();
+                if (response.isSuccessful() && body != null && body.data != null && body.data.content != null) {
+                    sourceStories.clear();
+                    sourceStories.addAll(body.data.content);
+                    renderTagsFromStories();
+                    applyFilter(keyword, selectedTag);
+                } else {
+                    Toast.makeText(SearchActivity.this, "Lỗi tìm kiếm, thử lại sau", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<SearchResponse>> call, Throwable t) {
+                Toast.makeText(SearchActivity.this, "Không thể kết nối API: " + t.getMessage(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
     }
 
     private List<StoryItem> createStories() {

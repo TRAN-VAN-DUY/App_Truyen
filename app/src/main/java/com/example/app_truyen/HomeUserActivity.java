@@ -41,6 +41,17 @@ public class HomeUserActivity extends AppCompatActivity {
         setViewAllAction(R.id.textViewAllRecommended);
         setViewAllAction(R.id.textViewAllNewUpdates);
         setViewAllAction(R.id.textViewAllHot);
+
+        // Footer search tab listener
+        android.widget.LinearLayout menuMain = findViewById(R.id.menuMain);
+        if (menuMain != null && menuMain.getChildCount() > 2) {
+            android.view.View searchTab = menuMain.getChildAt(2);
+            searchTab.setOnClickListener(v -> {
+                android.content.Intent searchIntent = new android.content.Intent(HomeUserActivity.this,
+                        SearchActivity.class);
+                startActivity(searchIntent);
+            });
+        }
     }
 
     private void setupTopStoriesCarousel(RecyclerView recyclerTopStories, List<StoryItem> topStories) {

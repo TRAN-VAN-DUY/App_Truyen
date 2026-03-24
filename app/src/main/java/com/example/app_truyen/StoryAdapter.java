@@ -3,6 +3,7 @@ package com.example.app_truyen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,11 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         StoryItem item = storyItems.get(position);
         holder.title.setText(item.title);
         holder.chapter.setText(item.chapter);
+        if (item.coverImage != null && !item.coverImage.isEmpty()) {
+            // Có thể sử dụng Glide hoặc Picasso để load ảnh từ URL
+            // Tạm thời sử dụng placeholder color
+            holder.cover.setBackgroundResource(android.R.color.darker_gray);
+        }
     }
 
     @Override
@@ -38,11 +44,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     }
 
     static class StoryViewHolder extends RecyclerView.ViewHolder {
+        final ImageView cover;
         final TextView title;
         final TextView chapter;
 
         StoryViewHolder(@NonNull View itemView) {
             super(itemView);
+            cover = itemView.findViewById(R.id.imageCoverStory);
             title = itemView.findViewById(R.id.textStoryTitle);
             chapter = itemView.findViewById(R.id.textStoryChapter);
         }
