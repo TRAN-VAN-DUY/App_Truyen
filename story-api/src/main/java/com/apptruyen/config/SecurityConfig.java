@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,29 +29,39 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Swagger
-                .requestMatchers(
-                    "/swagger-ui/**", "/swagger-ui.html",
-                    "/api-docs/**", "/v3/api-docs/**"
-                ).permitAll()
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        // Swagger
+                        .requestMatchers(
+                                "/swagger-ui/**", "/swagger-ui.html",
+                                "/api-docs/**", "/v3/api-docs/**")
+                        .permitAll()
 
-                // ── PUBLIC: đọc truyện không cần đăng nhập ──
-                .requestMatchers(HttpMethod.GET, "/api/v1/stories/**").permitAll()
+                        // ── PUBLIC: Auth endpoints (login/register) ──
+                        .requestMatchers("/api/auth/**").permitAll()
 
-                // ── SECURED: yêu thích & lịch sử đọc ──
-                .requestMatchers("/api/v1/favorites/**").authenticated()
-                .requestMatchers("/api/v1/reading-history/**").authenticated()
+                        // ── PUBLIC: đọc truyện không cần đăng nhập ──
+                        .requestMatchers(HttpMethod.GET, "/api/v1/stories/**").permitAll()
 
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                        // ── ADMIN: User & Role management ──
+                        // hasRole("ADMIN") == hasAuthority("ROLE_ADMIN"), dùng cả hai cho chắc
+                        .requestMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN", "ADMIN")
+
+                        // ── SECURED: yêu thích & lịch sử đọc ──
+                        .requestMatchers("/api/v1/favorites/**").authenticated()
+                        .requestMatchers("/api/v1/reading-history/**").authenticated()
+
+                        .anyRequest().authenticated())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

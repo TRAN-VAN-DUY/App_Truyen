@@ -78,3 +78,5 @@ mvn spring-boot:run
 - **Base URL:** `http://localhost:8080`
 - **Swagger UI:** `http://localhost:8080/swagger-ui.html`
 - **Hướng dẫn test:** xem [`story-api/README.md`](./story-api/README.md)
+
+mvn spring-boot:run 2>&1 | Tee-Object -FilePath "server.log"

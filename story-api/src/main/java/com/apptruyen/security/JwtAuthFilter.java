@@ -5,7 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +18,10 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
+
+    // Dùng SLF4J trực tiếp thay vì @Slf4j để tránh vấn đề Lombok annotation processor
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
     private final JwtUtil jwtUtil;
 
@@ -35,19 +38,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             try {
                 if (jwtUtil.validateToken(token)) {
                     Integer userId = jwtUtil.getUserIdFromRequest(request);
+                    String role    = jwtUtil.getRoleFromToken(token);
 
-                    // Tạo authentication object với principal = userId
+                    log.info("JWT valid — userId={}, role={}", userId, role);
+
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(
                                     userId,
                                     null,
-                                    List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                                    List.of(new SimpleGrantedAuthority(role))
                             );
                     SecurityContextHolder.getContext().setAuthentication(auth);
+                    log.info("Authentication set — authorities={}", auth.getAuthorities());
+
+                } else {
+                    log.warn("JWT validation failed for token");
                 }
             } catch (Exception e) {
-                log.warn("JWT processing failed: {}", e.getMessage());
-                // Không throw — để Security config xử lý 401
+                log.error("JWT processing error: {} — {}", e.getClass().getSimpleName(), e.getMessage());
             }
         }
 

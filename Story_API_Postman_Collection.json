@@ -1,0 +1,777 @@
+{
+  "info": {
+    "_postman_id": "story-api-testing",
+    "name": "Story API - Complete Testing",
+    "description": "Hoàn chỉnh hướng dẫn test API cho Story API Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1️⃣ AUTHENTICATION",
+      "item": [
+        {
+          "name": "Register - Email & Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"nguyenviet\",\n  \"email\": \"nguyenviet@example.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register - Device ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"device_android_12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login - Email & Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"nguyenviet@example.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Device ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"device_android_12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2️⃣ STORIES - PUBLIC",
+      "item": [
+        {
+          "name": "Get Stories - List (Page 0, Size 10)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories?page=0&size=10&sort=updated",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "updated"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Stories - Filter by Genre",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories?page=0&size=10&genre=action&sort=views",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "genre",
+                  "value": "action"
+                },
+                {
+                  "key": "sort",
+                  "value": "views"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Stories - Filter by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories?page=0&size=10&status=completed",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "completed"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Stories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/search?keyword=Tiêu Sử&page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "search"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "Tiêu Sử"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Story Detail - By Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/tieu-su-thien-khong",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "tieu-su-thien-khong"]
+            }
+          }
+        },
+        {
+          "name": "Get Story Detail - By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/id/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "id", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Chapters - By Story Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/tieu-su-thien-khong/chapters",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "tieu-su-thien-khong", "chapters"]
+            }
+          }
+        },
+        {
+          "name": "Get Chapters - By Story ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/id/1/chapters",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "id", "1", "chapters"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3️⃣ CHAPTERS - PUBLIC",
+      "item": [
+        {
+          "name": "Read Chapter Content - By Slug & Number",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/tieu-su-thien-khong/chapters/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "tieu-su-thien-khong", "chapters", "1"]
+            }
+          }
+        },
+        {
+          "name": "Read Chapter Content - By Chapter ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stories/chapters/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "stories", "chapters", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4️⃣ READING HISTORY - SECURED 🔐",
+      "item": [
+        {
+          "name": "Save Reading Progress",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"storyId\": 1,\n  \"lastChapterId\": 5,\n  \"scrollPosition\": 0.45\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/reading-history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reading-history"]
+            }
+          }
+        },
+        {
+          "name": "Get Continue Reading List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reading-history?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reading-history"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Progress for Specific Story",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reading-history/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "reading-history", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5️⃣ FAVORITES - SECURED 🔐",
+      "item": [
+        {
+          "name": "Add Story to Favorites",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"storyId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/favorites",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "favorites"]
+            }
+          }
+        },
+        {
+          "name": "Get Favorites List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/favorites?page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "favorites"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check if Story is Favorited",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/favorites/1/check",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "favorites", "1", "check"]
+            }
+          }
+        },
+        {
+          "name": "Remove Story from Favorites",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/favorites/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "favorites", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6️⃣ ADMIN USERS - SECURED 🔐 (ROLE_ADMIN)",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"user_new\",\n  \"email\": \"user_new@example.com\",\n  \"password\": \"Password@456\",\n  \"avatarUrl\": \"https://example.com/avatar_new.jpg\",\n  \"role\": {\n    \"id\": 1,\n    \"roleName\": \"ROLE_USER\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"nguyenviet_updated\",\n  \"email\": \"nguyenviet_updated@example.com\",\n  \"password\": \"NewPassword@789\",\n  \"avatarUrl\": \"https://example.com/avatar_updated.jpg\",\n  \"role\": {\n    \"id\": 2,\n    \"roleName\": \"ROLE_ADMIN\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "10"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7️⃣ ADMIN ROLES - SECURED 🔐 (ROLE_ADMIN)",
+      "item": [
+        {
+          "name": "Get All Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/roles",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "roles"]
+            }
+          }
+        },
+        {
+          "name": "Get Role by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/roles/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "roles", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create New Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleName\": \"ROLE_MODERATOR\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/roles",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "roles"]
+            }
+          }
+        },
+        {
+          "name": "Update Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleName\": \"ROLE_CONTENT_MODERATOR\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/roles/3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "roles", "3"]
+            }
+          }
+        },
+        {
+          "name": "Delete Role",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/roles/3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "roles", "3"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "user_token",
+      "value": "your_user_token_here",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "your_admin_token_here",
+      "type": "string"
+    }
+  ]
+}
