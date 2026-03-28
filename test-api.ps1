@@ -55,32 +55,8 @@ catch {
     Write-Host ""
 }
 
-# Test 1.2: Register with Device
-Write-Host "[1.2] Register with Device ID..." -ForegroundColor $WARNING
-try {
-    $registerDeviceBody = @{
-        deviceId = $DEVICE_ID
-    } | ConvertTo-Json
 
-    $registerDeviceResponse = Invoke-RestMethod `
-        -Uri "$BASE_URL/api/auth/register" `
-        -Method POST `
-        -ContentType "application/json" `
-        -Body $registerDeviceBody
-
-    $DEVICE_TOKEN = $registerDeviceResponse.data.token
-    $DEVICE_USER_ID = $registerDeviceResponse.data.userId
-
-    Write-Host "✅ Register Device SUCCESS" -ForegroundColor $SUCCESS
-    Write-Host "   Device User ID: $DEVICE_USER_ID" -ForegroundColor $SUCCESS
-    Write-Host ""
-}
-catch {
-    Write-Host "❌ Register Device FAILED: $($_.Exception.Message)" -ForegroundColor $ERROR_COLOR
-    Write-Host ""
-}
-
-# Test 1.3: Login with Email
+# Test 1.2: Login with Email
 Write-Host "[1.3] Login with Email & Password..." -ForegroundColor $WARNING
 try {
     $loginEmailBody = @{
@@ -102,26 +78,6 @@ catch {
     Write-Host ""
 }
 
-# Test 1.4: Login with Device
-Write-Host "[1.4] Login with Device ID..." -ForegroundColor $WARNING
-try {
-    $loginDeviceBody = @{
-        deviceId = $DEVICE_ID
-    } | ConvertTo-Json
-
-    $loginDeviceResponse = Invoke-RestMethod `
-        -Uri "$BASE_URL/api/auth/login" `
-        -Method POST `
-        -ContentType "application/json" `
-        -Body $loginDeviceBody
-
-    Write-Host "✅ Login Device SUCCESS" -ForegroundColor $SUCCESS
-    Write-Host ""
-}
-catch {
-    Write-Host "❌ Login Device FAILED: $($_.Exception.Message)" -ForegroundColor $ERROR_COLOR
-    Write-Host ""
-}
 
 # ============================================
 # 2️⃣ PUBLIC STORIES API TESTS
