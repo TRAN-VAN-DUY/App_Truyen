@@ -1,7 +1,7 @@
 # API Documentation — App Truyện
 
 **Base URL:** `http://localhost:8080`  
-**Swagger UI:** `http://localhost:8080/swagger-ui.html`  
+**Swagger UI:** `http://localhost:8080/swagger-ui.html Swagger UI:** `http://localhost:8080/swagger-ui.html  (Nên sử dụng swagger để test API)`  
 **Ghi chú:** Token = `Bearer <jwt>` trong header `Authorization`
 
 ---
