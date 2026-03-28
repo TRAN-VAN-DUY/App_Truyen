@@ -69,7 +69,10 @@ backend/
 ---
 
 ## Khởi động API server
-
+```bash
+import file data_apptruyen_2.sql vào MySQL
+Thay đổi thông tin tài khoản MySQL trong story-api\src\main\resources\application.yml
+```
 ```bash
 cd story-api
 mvn spring-boot:run
