@@ -8,10 +8,12 @@ spring:
     name: story-api
 
   datasource:
-    url: jdbc:mysql://localhost:3306/story_db?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/truyen_mb?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
     username: root
-    password: 123456   # ← đổi thành password MySQL của bạn
+    password: matkhau@102  # ← đổi thành password MySQL của bạn
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+
 
   jpa:
     hibernate:
