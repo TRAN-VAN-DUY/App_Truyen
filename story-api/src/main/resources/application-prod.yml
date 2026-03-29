@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+  # JWT (dùng biến môi trường)
+  app:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiration: 86400000
+
+# Tắt swagger ở production nếu muốn
+springdoc:
+  api-docs:
+    enabled: false
